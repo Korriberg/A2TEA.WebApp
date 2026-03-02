@@ -1435,9 +1435,9 @@ server <- function(input, output, session) {
           geom = geom_text,
           mapping = aes(y = gene, label = species),
           offset = -1,
-          pwidth = input$tea_log2FC_pwidth_choice,  # retained for API compatibility
-          size = 3,              # smaller and cleaner
-          color = "darkgrey",       # optional if contrast needs improvement
+          pwidth = input$tea_log2FC_pwidth_choice,
+          size = 3.5,
+          color = "darkgrey",
           inherit.aes = FALSE
         )
 
@@ -1482,7 +1482,7 @@ server <- function(input, output, session) {
           data = tree_dge_only_sig,
           geom = geom_star,
           mapping = aes(y = gene, x = log2FoldChange, fill = significant),
-          offset = 0,  # overlay perfectly
+          offset = input$tea_log2FC_offset_choice,
           size = 4,
           color = "orange",
           starstroke = 1
@@ -1501,7 +1501,7 @@ server <- function(input, output, session) {
           colour = "darkgray",
           alpha = .5,
           inherit.aes = FALSE,
-          offset = input$tea_baseMean_offset_choice,  # <-- NOW USER CONFIGURABLE
+          offset = input$tea_baseMean_offset_choice,
           pwidth = input$tea_baseMean_pwidth_choice,
           axis.params = list(
             axis = "x",
@@ -1823,7 +1823,7 @@ server <- function(input, output, session) {
                        ranksOf = "classicFisher",
                        topNodes = input$go_top_n_nodes_choice,
                        numChar=1000)
-    allRes <- allRes[allRes$Significant>input$go_sig_filter_choice,]
+    allRes <- allRes[allRes$Significant>=input$go_sig_filter_choice,]
 
     #store results in output list - no need to get fancy with S4 here
     A2TEA_GO_list <- list("int_set_df" = int_set_df,
